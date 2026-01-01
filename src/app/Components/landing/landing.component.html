@@ -1,0 +1,163 @@
+<!-- Header con gradiente moderno -->
+<header class="bg-gradient-to-r from-slate-900 via-purple-900 to-slate-900 shadow-2xl sticky top-0 z-50 backdrop-blur-lg">
+  <nav class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="flex justify-between items-center h-16">
+      
+      <!-- Logo/Brand -->
+      <div class="flex-shrink-0">
+        <a [routerLink]="'home'" class="text-2xl font-bold text-white hover:text-purple-300 transition-colors duration-200">
+          <span class="bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
+            VERABOX
+          </span>
+        </a>
+      </div>
+
+      <!-- Menú Desktop -->
+      <div class="hidden md:block">
+        <div class="ml-10 flex items-baseline space-x-8">
+          <a [routerLink]="'home'" 
+             routerLinkActive="active-link"
+             class="nav-link text-gray-300 hover:text-white hover:bg-purple-700 px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 ease-in-out transform hover:scale-105">
+            🏠 Inicio
+          </a>
+          
+          <!-- Dropdown de Categorías -->
+          <div class="relative group">
+            <button class="nav-link text-gray-300 hover:text-white hover:bg-purple-700 px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 ease-in-out transform hover:scale-105 flex items-center">
+              🛍️ Catálogo
+              <svg class="ml-2 h-4 w-4 transform group-hover:rotate-180 transition-transform duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+              </svg>
+            </button>
+            
+            <!-- Dropdown Menu -->
+            <div class="absolute left-0 mt-2 w-56 bg-white rounded-xl shadow-2xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 transform group-hover:translate-y-0 translate-y-2 border border-gray-100">
+              <div class="py-2">
+                <a [routerLink]="'/catalogo/juguetes'" 
+                   class="dropdown-link block px-4 py-3 text-sm text-gray-700 hover:bg-purple-50 hover:text-purple-700 transition-colors duration-200">
+                  🧸 Juguetes
+                </a>
+                <a [routerLink]="'/catalogo/ropa'" 
+                   class="dropdown-link block px-4 py-3 text-sm text-gray-700 hover:bg-purple-50 hover:text-purple-700 transition-colors duration-200">
+                  👕 Ropa
+                </a>
+                <a [routerLink]="'/catalogo/electronica'" 
+                   class="dropdown-link block px-4 py-3 text-sm text-gray-700 hover:bg-purple-50 hover:text-purple-700 transition-colors duration-200">
+                  📱 Electrónicos
+                </a>
+                <a [routerLink]="'/catalogo/hogar'" 
+                   class="dropdown-link block px-4 py-3 text-sm text-gray-700 hover:bg-purple-50 hover:text-purple-700 transition-colors duration-200">
+                  🏡 Hogar
+                </a>
+                <a [routerLink]="'/catalogo/deportes'" 
+                   class="dropdown-link block px-4 py-3 text-sm text-gray-700 hover:bg-purple-50 hover:text-purple-700 transition-colors duration-200">
+                  ⚽ Deportes
+                </a>
+              </div>
+            </div>
+          </div>
+
+          <a [routerLink]="'contacto'" 
+             routerLinkActive="active-link"
+             class="nav-link text-gray-300 hover:text-white hover:bg-purple-700 px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 ease-in-out transform hover:scale-105">
+            📞 Contacto
+          </a>
+        </div>
+      </div>
+
+      <!-- Botón Login/Usuario y Carrito -->
+      <div class="hidden md:flex items-center space-x-4">
+        <!-- Botón del Carrito -->
+        <div class="relative">
+          <button 
+            class="relative bg-white bg-opacity-20 hover:bg-opacity-30 text-white p-3 rounded-full transition-all duration-200 transform hover:scale-105 border border-white border-opacity-30">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4m2.6 8L9 13m0 0v6a2 2 0 002 2h2a2 2 0 002-2v-6m-4 0V9a2 2 0 012-2h2a2 2 0 012 2v4.01"></path>
+            </svg>
+            <!-- Badge de cantidad (ejemplo) -->
+            <div class="absolute -top-1 -right-1 bg-red-500 text-white text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center">
+              0
+            </div>
+          </button>
+        </div>
+
+        <a [routerLink]="'login'" 
+           class="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white px-6 py-2 rounded-full text-sm font-medium transition-all duration-200 ease-in-out transform hover:scale-105 shadow-lg hover:shadow-xl">
+          👤 Ingresar
+        </a>
+      </div>
+
+      <!-- Botón Mobile Menu -->
+      <div class="md:hidden">
+        <button (click)="toggleMobileMenu()" 
+                class="text-gray-300 hover:text-white focus:outline-none focus:text-white transition-colors duration-200">
+          <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path *ngIf="!mobileMenuOpen" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+            <path *ngIf="mobileMenuOpen" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- Menú Mobile -->
+    <div *ngIf="mobileMenuOpen" class="md:hidden bg-slate-800 rounded-b-xl mt-2 shadow-2xl">
+      <div class="px-2 pt-2 pb-3 space-y-1">
+        <a [routerLink]="'home'" 
+           (click)="toggleMobileMenu()"
+           class="block text-gray-300 hover:text-white hover:bg-purple-700 px-3 py-2 rounded-md text-base font-medium transition-colors duration-200">
+          🏠 Inicio
+        </a>
+        
+        <!-- Categorías Mobile -->
+        <div class="px-3 py-2">
+          <span class="text-gray-400 text-sm font-medium">🛍️ Catálogo</span>
+          <div class="mt-2 space-y-1 pl-4">
+            <a [routerLink]="'/catalogo/juguetes'" 
+               (click)="toggleMobileMenu()"
+               class="block text-gray-300 hover:text-white hover:bg-purple-700 px-3 py-2 rounded-md text-sm transition-colors duration-200">
+              🧸 Juguetes
+            </a>
+            <a [routerLink]="'/catalogo/ropa'" 
+               (click)="toggleMobileMenu()"
+               class="block text-gray-300 hover:text-white hover:bg-purple-700 px-3 py-2 rounded-md text-sm transition-colors duration-200">
+              👕 Ropa
+            </a>
+            <a [routerLink]="'/catalogo/electronica'" 
+               (click)="toggleMobileMenu()"
+               class="block text-gray-300 hover:text-white hover:bg-purple-700 px-3 py-2 rounded-md text-sm transition-colors duration-200">
+              📱 Electrónicos
+            </a>
+            <a [routerLink]="'/catalogo/hogar'" 
+               (click)="toggleMobileMenu()"
+               class="block text-gray-300 hover:text-white hover:bg-purple-700 px-3 py-2 rounded-md text-sm transition-colors duration-200">
+              🏡 Hogar
+            </a>
+            <a [routerLink]="'/catalogo/deportes'" 
+               (click)="toggleMobileMenu()"
+               class="block text-gray-300 hover:text-white hover:bg-purple-700 px-3 py-2 rounded-md text-sm transition-colors duration-200">
+              ⚽ Deportes
+            </a>
+          </div>
+        </div>
+        
+        <a [routerLink]="'contacto'" 
+           (click)="toggleMobileMenu()"
+           class="block text-gray-300 hover:text-white hover:bg-purple-700 px-3 py-2 rounded-md text-base font-medium transition-colors duration-200">
+          📞 Contacto
+        </a>
+        
+        <a [routerLink]="'login'" 
+           (click)="toggleMobileMenu()"
+           class="block bg-gradient-to-r from-purple-600 to-pink-600 text-white px-3 py-2 rounded-md text-base font-medium mt-4 text-center transition-all duration-200">
+          👤 Ingresar
+        </a>
+      </div>
+    </div>
+  </nav>
+</header>
+
+<!-- Contenido principal -->
+<main class="min-h-screen bg-gray-50">
+  <router-outlet></router-outlet>
+</main>
+

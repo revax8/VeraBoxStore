@@ -1,0 +1,130 @@
+/* Animaciones personalizadas */
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(50px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes pulseSlow {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+}
+
+@keyframes counter {
+  from {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+/* Aplicar animaciones */
+.animate-fade-in {
+  animation: fadeIn 1s ease-out forwards;
+}
+
+.animate-slide-up {
+  animation: slideUp 1s ease-out 0.3s forwards;
+  opacity: 0;
+}
+
+.animate-pulse-slow {
+  animation: pulseSlow 3s ease-in-out infinite;
+}
+
+.animate-counter {
+  animation: counter 0.8s ease-out forwards;
+}
+
+.animate-counter:nth-child(1) { animation-delay: 0.1s; }
+.animate-counter:nth-child(2) { animation-delay: 0.2s; }
+.animate-counter:nth-child(3) { animation-delay: 0.3s; }
+.animate-counter:nth-child(4) { animation-delay: 0.4s; }
+
+/* Efectos de hover mejorados */
+.group:hover .transform {
+  transform: translateY(-4px) scale(1.02);
+}
+
+/* Gradientes dinámicos */
+.bg-gradient-to-br {
+  background-size: 200% 200%;
+  animation: gradientShift 4s ease infinite;
+}
+
+@keyframes gradientShift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* Efectos de glassmorphism */
+.backdrop-blur {
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+/* Mejoras responsive */
+@media (max-width: 768px) {
+  .animate-fade-in {
+    font-size: 3rem;
+  }
+  
+  .animate-slide-up {
+    font-size: 1.125rem;
+  }
+}
+
+/* Scroll suave */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Efectos de partículas de fondo */
+.relative::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: radial-gradient(circle at 20% 80%, rgba(120, 119, 198, 0.3) 0%, transparent 50%),
+              radial-gradient(circle at 80% 20%, rgba(255, 119, 198, 0.3) 0%, transparent 50%),
+              radial-gradient(circle at 40% 40%, rgba(120, 219, 255, 0.3) 0%, transparent 50%);
+  animation: particleFloat 6s ease-in-out infinite;
+}
+
+@keyframes particleFloat {
+  0%, 100% {
+    transform: translateY(0) rotate(0deg);
+    opacity: 0.7;
+  }
+  50% {
+    transform: translateY(-20px) rotate(180deg);
+    opacity: 1;
+  }
+}

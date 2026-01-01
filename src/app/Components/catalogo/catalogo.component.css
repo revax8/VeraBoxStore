@@ -1,0 +1,177 @@
+/* Estilos optimizados para el catálogo - sin efectos borrosos */
+
+* {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.product-card {
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  background: white;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.product-card:hover {
+  transform: translateY(-8px) scale(1.02);
+  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
+}
+
+.filter-btn {
+  background: white;
+  border: 2px solid #e5e7eb;
+  color: #6b7280;
+}
+
+.filter-btn:hover {
+  border-color: #8b5cf6;
+  background: #faf5ff;
+  color: #8b5cf6;
+}
+
+.filter-btn.active {
+  background: linear-gradient(135deg, #8b5cf6, #ec4899);
+  border-color: transparent;
+  color: white;
+  box-shadow: 0 4px 15px rgba(139, 92, 246, 0.3);
+}
+
+.product-card {
+  animation: fadeInUp 0.6s ease-out forwards;
+  opacity: 0;
+  transform: translateY(20px);
+}
+
+.product-card:nth-child(1) { animation-delay: 0.05s; }
+.product-card:nth-child(2) { animation-delay: 0.1s; }
+.product-card:nth-child(3) { animation-delay: 0.15s; }
+.product-card:nth-child(4) { animation-delay: 0.2s; }
+
+@keyframes fadeInUp {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.line-clamp-2 {
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+}
+
+/* Estilos específicos para las imágenes del producto */
+.product-card img {
+  display: block;
+  background-color: #f9fafb;
+  min-height: 16rem; /* 64 en tailwind */
+  transition: transform 0.5s ease;
+  cursor: zoom-in;
+}
+
+/* Asegurar que el overlay no interfiera con la imagen */
+.product-card .relative {
+  position: relative;
+  z-index: 1;
+}
+
+.product-card .relative img {
+  position: relative;
+  z-index: 2;
+}
+
+.product-card .absolute {
+  z-index: 3;
+}
+
+button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+@media (max-width: 640px) {
+  .filter-btn {
+    padding: 0.5rem 1rem;
+    font-size: 0.875rem;
+  }
+}
+
+.fixed {
+  z-index: 9999;
+}
+
+/* Estilos específicos para el modal del carrito */
+.modal-carrito {
+  display: flex;
+  flex-direction: column;
+  max-height: 90vh;
+}
+
+.modal-carrito-content {
+  flex: 1;
+  overflow-y: auto;
+  min-height: 0;
+}
+
+.modal-carrito-footer {
+  flex-shrink: 0;
+  border-top: 1px solid #e5e7eb;
+}
+
+/* Mejoras para móviles */
+@media (max-width: 640px) {
+  .modal-carrito {
+    max-height: 95vh;
+    margin: 1rem;
+  }
+}
+
+/* Estilos para el modal de imagen */
+.imagen-modal {
+  backdrop-filter: blur(10px);
+  animation: modalFadeIn 0.3s ease-out;
+}
+
+.imagen-modal img {
+  animation: imageZoomIn 0.3s ease-out;
+}
+
+/* Efecto hover mejorado para las imágenes */
+.product-card .relative:hover .absolute.inset-0 {
+  backdrop-filter: blur(1px);
+}
+
+@keyframes modalFadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes imageZoomIn {
+  from {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* Estilos responsivos para el modal de imagen */
+@media (max-width: 768px) {
+  .imagen-modal img {
+    max-width: 95vw;
+    max-height: 80vh;
+  }
+  
+  .imagen-modal .absolute.bottom-0 {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+  }
+}

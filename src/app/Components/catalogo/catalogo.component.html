@@ -1,0 +1,281 @@
+<div class="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 py-8 relative">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    
+    <!-- Header de la categoría -->
+    <div class="text-center mb-12">
+      <div class="inline-flex items-center justify-center w-20 h-20 bg-gradient-to-br from-purple-500 to-pink-500 rounded-full mb-6 shadow-xl">
+        <span class="text-4xl">{{ obtenerIconoCategoria() }}</span>
+      </div>
+      <h1 class="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
+        {{ obtenerTituloCategoria() }}
+      </h1>
+      <p class="text-xl text-gray-600 max-w-2xl mx-auto">
+        Descubre nuestra increíble colección de productos seleccionados especialmente para ti
+      </p>
+      <div class="mt-6 flex justify-center">
+        <span class="bg-gradient-to-r from-purple-100 to-pink-100 text-purple-800 px-6 py-2 rounded-full text-sm font-medium">
+          {{ productos.length }} productos disponibles
+        </span>
+      </div>
+    </div>
+
+    <!-- Filtros rápidos -->
+    <div class="mb-8">
+      <div class="flex flex-wrap justify-center gap-4">
+        <button 
+          class="filter-btn px-6 py-3 rounded-full text-sm font-medium transition-all duration-200 transform hover:scale-105"
+          [class.active]="categoria === 'todas'"
+          (click)="navegarACategoria('todas')">
+          🛍️ Todos
+        </button>
+        <button 
+          class="filter-btn px-6 py-3 rounded-full text-sm font-medium transition-all duration-200 transform hover:scale-105"
+          [class.active]="categoria === 'juguetes'"
+          (click)="navegarACategoria('juguetes')">
+          🧸 Juguetes
+        </button>
+        <button 
+          class="filter-btn px-6 py-3 rounded-full text-sm font-medium transition-all duration-200 transform hover:scale-105"
+          [class.active]="categoria === 'ropa'"
+          (click)="navegarACategoria('ropa')">
+          👕 Ropa
+        </button>
+        <button 
+          class="filter-btn px-6 py-3 rounded-full text-sm font-medium transition-all duration-200 transform hover:scale-105"
+          [class.active]="categoria === 'electronica'"
+          (click)="navegarACategoria('electronica')">
+          📱 Electrónicos
+        </button>
+        <button 
+          class="filter-btn px-6 py-3 rounded-full text-sm font-medium transition-all duration-200 transform hover:scale-105"
+          [class.active]="categoria === 'hogar'"
+          (click)="navegarACategoria('hogar')">
+          🏡 Hogar
+        </button>
+        <button 
+          class="filter-btn px-6 py-3 rounded-full text-sm font-medium transition-all duration-200 transform hover:scale-105"
+          [class.active]="categoria === 'deportes'"
+          (click)="navegarACategoria('deportes')">
+          ⚽ Deportes
+        </button>
+      </div>
+    </div>
+
+    <!-- Grid de productos -->
+    <div *ngIf="productos.length > 0" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+      <div 
+        *ngFor="let producto of productos; trackBy: trackByProducto"
+        class="product-card bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 overflow-hidden group">
+        
+        <!-- Imagen del producto -->
+        <div class="relative overflow-hidden cursor-pointer" (click)="abrirImagenModal(producto.imagen, producto.nombre)">
+          <img  [title]="producto.nombre"
+            [src]="producto.imagen" 
+            [alt]="producto.nombre"
+            class="w-full h-64 object-cover group-hover:scale-110 transition-transform duration-500"
+            (error)="onImageError($event)">
+          
+          <!-- Ícono de zoom flotante -->
+          <div class="absolute top-4 left-4 opacity-0 group-hover:opacity-100 transform scale-0 group-hover:scale-100 transition-all duration-300">
+            <div class="bg-white bg-opacity-90 p-2 rounded-full shadow-lg">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-purple-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v3m0 0v3m0-3h3m-3 0H7" />
+              </svg>
+            </div>
+          </div>
+          
+          <!-- Badge de precio -->
+          <div class="absolute top-4 right-4 bg-gradient-to-r from-green-400 to-green-500 text-white px-3 py-1 rounded-full text-sm font-bold shadow-lg">
+            ${{ producto.precio }}
+          </div>
+        </div>
+        
+        <!-- Información del producto -->
+        <div class="p-6">
+          <h3 class="text-xl font-bold text-gray-900 mb-2 group-hover:text-purple-600 transition-colors duration-200">
+            {{ producto.nombre }}
+          </h3>
+          <p class="text-gray-600 mb-4 text-sm line-clamp-2">
+            {{ producto.descripcion }}
+          </p>
+          
+          <!-- Precio y botón -->
+          <div class="flex items-center justify-between">
+            <span class="text-2xl font-bold text-green-600">
+              ${{ producto.precio }}
+            </span>
+            <button 
+              (click)="agregarAlCarrito(producto)"
+              [disabled]="estaEnCarrito(producto)"
+              [class]="estaEnCarrito(producto) ? 
+                'bg-gray-400 cursor-not-allowed text-white px-4 py-2 rounded-lg font-medium' : 
+                'bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white px-4 py-2 rounded-lg font-medium transition-all duration-200 transform hover:scale-105 shadow-lg'">
+              {{ estaEnCarrito(producto) ? '✓ En Carrito' : '🛒 Agregar' }}
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Mensaje cuando no hay productos -->
+    <div *ngIf="productos.length === 0" class="text-center py-16">
+      <div class="mb-6">
+        <span class="text-6xl">📦</span>
+      </div>
+      <h3 class="text-2xl font-bold text-gray-900 mb-4">No hay productos disponibles</h3>
+      <p class="text-gray-600 mb-8">No se encontraron productos en esta categoría.</p>
+      <button 
+        (click)="navegarACategoria('todas')"
+        class="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white px-8 py-3 rounded-full font-medium transition-all duration-200 transform hover:scale-105 shadow-lg">
+        Ver Todos los Productos
+      </button>
+    </div>
+
+    <!-- CTA Section -->
+    <div class="mt-16 bg-gradient-to-r from-purple-600 to-pink-600 rounded-3xl p-8 md:p-12 text-center text-white shadow-2xl">
+      <h2 class="text-3xl md:text-4xl font-bold mb-4">¿No encuentras lo que buscas?</h2>
+      <p class="text-xl mb-8 opacity-90">Contáctanos y te ayudamos a encontrar el producto perfecto</p>
+      <a 
+        [routerLink]="'/contacto'"
+        class="inline-block bg-white text-purple-600 hover:text-purple-700 px-8 py-4 rounded-full font-bold text-lg transition-all duration-200 transform hover:scale-105 shadow-lg hover:shadow-xl">
+        📞 Contactar Ahora
+      </a>
+    </div>
+  </div>
+
+  <!-- Botón flotante del carrito -->
+  <div class="fixed bottom-6 right-6 z-50">
+    <button 
+      (click)="toggleCarrito()"
+      class="relative bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white p-4 rounded-full shadow-2xl transition-all duration-300 transform hover:scale-110">
+      <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4m2.6 8L9 13m0 0v6a2 2 0 002 2h2a2 2 0 002-2v-6m-4 0V9a2 2 0 012-2h2a2 2 0 012 2v4.01"></path>
+      </svg>
+      
+      <!-- Badge con cantidad -->
+      <div *ngIf="carrito.length > 0" 
+           class="absolute -top-2 -right-2 bg-red-500 text-white text-xs font-bold rounded-full w-6 h-6 flex items-center justify-center animate-bounce">
+        {{ carrito.length }}
+      </div>
+    </button>
+  </div>
+
+  <!-- Modal del Carrito -->
+  <div *ngIf="mostrarCarrito" 
+       class="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4"
+       (click)="toggleCarrito()">
+    
+    <div class="bg-white rounded-2xl max-w-md w-full max-h-[90vh] flex flex-col shadow-2xl transform transition-all duration-300"
+         (click)="$event.stopPropagation()">
+      
+      <!-- Header del carrito - Fijo -->
+      <div class="bg-gradient-to-r from-purple-600 to-pink-600 text-white p-6 flex-shrink-0">
+        <div class="flex items-center justify-between">
+          <h2 class="text-2xl font-bold">🛒 Mi Carrito</h2>
+          <button (click)="toggleCarrito()" 
+                  class="text-white hover:text-gray-200"
+                  title="Cerrar carrito"
+                  aria-label="Cerrar carrito">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+            </svg>
+          </button>
+        </div>
+        <p class="text-purple-100 mt-2">{{ carrito.length }} productos seleccionados</p>
+      </div>
+
+      <!-- Contenido del carrito - Scrolleable -->
+      <div class="flex-1 overflow-y-auto min-h-0">
+        <div class="p-6">
+          
+          <!-- Carrito vacío -->
+          <div *ngIf="carrito.length === 0" class="text-center py-8">
+            <div class="text-6xl mb-4">🛒</div>
+            <h3 class="text-xl font-bold text-gray-900 mb-2">Carrito vacío</h3>
+            <p class="text-gray-600">Agrega productos para comenzar tu pedido</p>
+          </div>
+
+          <!-- Productos en el carrito -->
+          <div *ngIf="carrito.length > 0" class="space-y-4">
+            <div *ngFor="let producto of carrito" 
+                 class="flex items-center bg-gray-50 rounded-xl p-4 transition-all duration-200 hover:bg-gray-100">
+              
+              <img [src]="producto.imagen" 
+                   [alt]="producto.nombre"
+                   [title]="producto.nombre"
+                   (error)="onImageError($event)"
+                   class="w-16 h-16 object-cover rounded-lg mr-4">
+              
+              <div class="flex-1">
+                <h4 class="font-bold text-gray-900">{{ producto.nombre }}</h4>
+                <p class="text-sm text-gray-600 mb-2">{{ producto.descripcion }}</p>
+                <p class="text-lg font-bold text-green-600">${{ producto.precio }}</p>
+              </div>
+              
+              <button (click)="eliminarDelCarrito(producto)"
+                      title="Eliminar producto del carrito"
+                      aria-label="Eliminar producto del carrito"
+                      class="text-red-500 hover:text-red-700 p-2 rounded-full hover:bg-red-50 transition-colors">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
+                </svg>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Footer del carrito - Fijo en la parte inferior -->
+      <div *ngIf="carrito.length > 0" class="border-t bg-gray-50 p-6 flex-shrink-0">
+        
+        <!-- Total -->
+        <div class="flex justify-between items-center mb-4">
+          <span class="text-xl font-bold text-gray-900">Total:</span>
+          <span class="text-2xl font-bold text-green-600">${{ obtenerTotalCarrito().toFixed(2) }}</span>
+        </div>
+        
+        <!-- Botones -->
+        <div class="space-y-3">
+          <button (click)="enviarPorWhatsApp()"
+                  class="w-full bg-green-500 hover:bg-green-600 text-white py-4 rounded-xl font-bold text-lg transition-all duration-200 transform hover:scale-105 shadow-lg flex items-center justify-center">
+            <svg class="w-6 h-6 mr-2" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893A11.821 11.821 0 0020.885 3.488"/>
+            </svg>
+            Enviar por WhatsApp
+          </button>
+          
+          <button (click)="vaciarCarrito()"
+                  class="w-full bg-red-500 hover:bg-red-600 text-white py-2 rounded-xl font-medium transition-colors">
+            🗑️ Vaciar Carrito
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal de Imagen -->
+<div *ngIf="mostrarImagenModal" 
+     class="imagen-modal fixed inset-0 z-[9999] flex items-center justify-center bg-black bg-opacity-80"
+     (click)="cerrarImagenModal()">
+  <div class="relative max-w-4xl max-h-full p-4">
+    <!-- Botón cerrar -->
+    <button (click)="cerrarImagenModal()" 
+            class="absolute -top-2 -right-2 z-10 bg-white rounded-full p-2 shadow-lg hover:bg-gray-100 transition-colors">
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+      </svg>
+    </button>
+    
+    <!-- Imagen ampliada -->
+    <img [src]="imagenModalSrc" 
+         [alt]="imagenModalAlt"
+         class="max-w-full max-h-[90vh] object-contain rounded-lg shadow-2xl"
+         (click)="$event.stopPropagation()">
+    
+    <!-- Título de la imagen -->
+    <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black to-transparent text-white p-4">
+      <h3 class="text-lg font-bold">{{ imagenModalAlt }}</h3>
+    </div>
+  </div>
+</div>
